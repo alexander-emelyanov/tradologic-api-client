@@ -4,6 +4,6 @@ namespace TradoLogic\Requests;
 
 use TradoLogic\Request;
 
-class RegisterUser extends Request
+class UserAdd extends Request
 {
 }
