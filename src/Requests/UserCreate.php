@@ -6,17 +6,144 @@ use TradoLogic\Request;
 
 class UserCreate extends Request
 {
-    public $userPassword;
+    /**
+     * @return string
+     */
+    public function getUserPassword()
+    {
+        return $this->userPassword;
+    }
 
-    public $userFirstName;
+    /**
+     * @return string
+     */
+    public function getUserFirstName()
+    {
+        return $this->userFirstName;
+    }
 
-    public $userLastName;
+    /**
+     * @return string
+     */
+    public function getUserLastName()
+    {
+        return $this->userLastName;
+    }
 
-    public $currencyCode;
+    /**
+     * @return string
+     */
+    public function getCurrencyCode()
+    {
+        return $this->currencyCode;
+    }
 
-    public $email;
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
-    public $phone;
+    /**
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
 
-    public $countryCode;
+    /**
+     * @return string
+     */
+    public function getCountryCode()
+    {
+        return $this->countryCode;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLanguageCode()
+    {
+        return $this->languageCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserIpAddress()
+    {
+        return $this->userIpAddress;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubAffiliateId()
+    {
+        return $this->subAffiliateId;
+    }
+
+    /**
+     * @var string
+     */
+    protected $userPassword;
+
+    /**
+     * @var string
+     */
+    protected $userFirstName;
+
+    /**
+     * @var string
+     */
+    protected $userLastName;
+
+    /**
+     * Three-letters currency ISO code in uppercase.
+     *
+     * @var string
+     */
+    protected $currencyCode;
+
+    /**
+     * @var string
+     */
+    protected $email;
+
+    /**
+     * @var string
+     */
+    protected $phone;
+
+    /**
+     * @var string
+     */
+    protected $countryCode;
+
+    /**
+     * @var int
+     */
+    protected $languageCode;
+
+    /**
+     * @var string
+     */
+    protected $userIpAddress;
+
+    /**
+     * @var string
+     */
+    protected $subAffiliateId;
+
+    public function __construct($data)
+    {
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->{$key} = $value;
+            }
+        }
+    }
 }

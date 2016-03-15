@@ -31,6 +31,47 @@ class ApiClient
         return $this->settings['url'];
     }
 
+    protected function getUsername()
+    {
+        if (!isset($this->settings['username'])){
+            throw new Exception('Affiliate username not configured');
+        }
+
+        return $this->settings['username'];
+    }
+
+    protected function getPassword()
+    {
+        if (!isset($this->settings['password'])){
+            throw new Exception('Affiliate password not configured');
+        }
+
+        return $this->settings['password'];
+    }
+
+    protected function getAccountId()
+    {
+        if (!isset($this->settings['accountId'])){
+            throw new Exception('Account ID of brand not configured');
+        }
+
+        return $this->settings['accountId'];
+    }
+
+    protected function getApiLicense()
+    {
+        if (!isset($this->settings['apiLicense'])){
+            throw new Exception('API license of brand not configured');
+        }
+
+        return $this->settings['apiLicense'];
+    }
+
+    protected function getChecksum()
+    {
+        return hash('sha256', $this->getAccountId() . $this->getApiLicense());;
+    }
+
     /**
      * @param string $method
      * @param string $uri
@@ -47,7 +88,8 @@ class ApiClient
                 'body' => json_encode($data),
                 // 'debug' => true,
                 'headers' => [
-                    'User-Agent' => 'TradoLogic API Client',
+                    'User-Agent'   => 'TradoLogic API Client',
+                    'Content-Type' => 'application/json',
                 ]
             ])->getBody()->getContents();
         } catch (GuzzleHttp\Exception\ClientException $exception){
@@ -79,9 +121,21 @@ class ApiClient
         return $response->getData();
     }
 
-    public function registerUser(UserCreate $request)
+    public function createUser(UserCreate $request)
     {
-        $payload = $this->request('POST', "/v1/users", []);
+        $data = [
+            'userFirstName'     => $request->getUserFirstName(),
+            'userLastName'      => $request->getUserLastName(),
+            'userPassword'      => $request->getUserPassword(),
+            'phone'             => $request->getPhone(),
+            'email'             => $request->getEmail(),
+            'accountId'         => $this->getAccountId(),
+            'affiliateUsername' => $this->getUsername(),
+            'checksum'          => $this->getChecksum(),
+        ];
+        print_r($data);
+        $payload = $this->request('POST', "/v1/affiliate/users", $data);
+        print_r($payload);
         return new Response($payload);
     }
 }

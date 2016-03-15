@@ -22,7 +22,7 @@ class Payload implements \ArrayAccess, \JsonSerializable
         $data = json_decode((string)$json, true);
 
         if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
-            throw new \UnexpectedValueException('Invalid JSON message.');
+            throw new \UnexpectedValueException('Invalid JSON message. Message: ' . $json);
         }
 
         $this->data = $data;
