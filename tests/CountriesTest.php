@@ -4,9 +4,6 @@ namespace TradoLogic\Tests;
 
 class CountriesTest extends TestCase
 {
-    public function __construct(){
-        parent::__construct();
-    }
 
     public function testCountries(){
         $countries = $this->apiClient->countries();
