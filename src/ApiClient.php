@@ -2,9 +2,10 @@
 
 namespace TradoLogic;
 
-use TradoLogic\Requests\RegisterUser;
 use GuzzleHttp;
-use TradoLogic\Responses\GetCountries;
+use TradoLogic\Requests\UserCreate;
+use TradoLogic\Responses\Countries;
+use TradoLogic\Responses\Languages;
 
 class ApiClient
 {
@@ -61,13 +62,24 @@ class ApiClient
     /**
      * @return \TradoLogic\Entities\Country[]
      */
-    public function countries(){
+    public function countries()
+    {
         $payload = $this->request('GET', "/v1/nomenclature/countries");
-        $response = new GetCountries($payload);
+        $response = new Countries($payload);
         return $response->getData();
     }
 
-    public function registerUser(RegisterUser $request)
+    /**
+     * @return \TradoLogic\Entities\Language[]
+     */
+    public function languages()
+    {
+        $payload = $this->request('GET', "/v1/nomenclature/languages");
+        $response = new Languages($payload);
+        return $response->getData();
+    }
+
+    public function registerUser(UserCreate $request)
     {
         $payload = $this->request('POST', "/v1/users", []);
         return new Response($payload);

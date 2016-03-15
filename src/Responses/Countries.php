@@ -6,7 +6,7 @@ use TradoLogic\Entities\Country;
 use TradoLogic\Payload;
 use TradoLogic\Response;
 
-class GetCountries extends Response
+class Countries extends Response
 {
     /**
      * @var array
