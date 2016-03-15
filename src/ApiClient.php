@@ -58,9 +58,13 @@ class ApiClient
         return new Payload($response);
     }
 
-    public function getCountries(){
+    /**
+     * @return \TradoLogic\Entities\Country[]
+     */
+    public function countries(){
         $payload = $this->request('GET', "/v1/nomenclature/countries");
-        return new GetCountries($payload);
+        $response = new GetCountries($payload);
+        return $response->getData();
     }
 
     public function registerUser(RegisterUser $request)

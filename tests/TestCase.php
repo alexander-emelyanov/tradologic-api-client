@@ -26,7 +26,9 @@ class TestCase extends \PHPUnit_Framework_TestCase
         if (!$url){
             throw new \Exception('Environment variable TRADOLOGIC_URL is required');
         }
-        $this->apiClient = new ApiClient($url);
+        $this->apiClient = new ApiClient([
+            'url' => $url,
+        ]);
         $this->faker = FakerFactory::create();
     }
 

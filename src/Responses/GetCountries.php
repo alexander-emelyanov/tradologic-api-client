@@ -13,14 +13,21 @@ class GetCountries extends Response
      */
     protected $countries = [];
 
+    CONST FIELD_CURRENCY = 'currency';
+
     public function __construct(Payload $payload)
     {
         parent::__construct($payload);
 
         if ($this->isSuccess()) {
-            if (!empty($this->data[static::FIELD_DATA])){
+            if (!empty($this->data[static::FIELD_DATA])) {
                 foreach ($this->data[static::FIELD_DATA] as $countryInfo) {
-                    $this->countries[] = new Country($countryInfo);
+                    // Two countries from TradoLogic API have currency.
+                    // These countries: "Unknown" and "Antarctica". Real "Tear 1" countries with fat traffic of penguins and nobodies...
+                    // But we should skip them...
+                    if (isset($countryInfo[static::FIELD_CURRENCY]) && $countryInfo[static::FIELD_CURRENCY]){
+                        $this->countries[] = new Country($countryInfo);
+                    }
                 }
             }
         }
@@ -29,7 +36,7 @@ class GetCountries extends Response
     /**
      * @return \TradoLogic\Entities\Country[]
      */
-    public function getCountries()
+    public function getData()
     {
         return $this->countries;
     }
