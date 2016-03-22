@@ -18,7 +18,9 @@ class Response
 
     const FIELD_DATA = 'data';
 
-    const ERROR_NONE = 200;
+    const ERROR_NONE_MIN = 200;
+
+    const ERROR_NONE_MAX = 299;
 
     const ERROR_UNAUTHORIZED = 401;
 
@@ -62,6 +64,6 @@ class Response
 
     public function isSuccess()
     {
-        return $this->getStatusCode() == static::ERROR_NONE;
+        return $this->getStatusCode() >= static::ERROR_NONE_MIN && $this->getStatusCode() <= static::ERROR_NONE_MAX;
     }
 }
