@@ -8,7 +8,7 @@ use TradoLogic\Response;
 
 class UserCreate extends Response
 {
-    CONST ERROR_EMAIL_EXISTS = 'Registration_ExistingEmail';
+    const ERROR_EMAIL_EXISTS = 'Registration_ExistingEmail';
 
     public function __construct(Payload $payload)
     {

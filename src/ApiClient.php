@@ -4,9 +4,9 @@ namespace TradoLogic;
 
 use GuzzleHttp;
 use TradoLogic\Requests\UserCreate as UserCreateRequest;
-use TradoLogic\Responses\UserCreate as UserCreateResponse;
 use TradoLogic\Responses\Countries;
 use TradoLogic\Responses\Languages;
+use TradoLogic\Responses\UserCreate as UserCreateResponse;
 
 class ApiClient
 {
@@ -124,9 +124,9 @@ class ApiClient
     /**
      * @param \TradoLogic\Requests\UserCreate $request
      *
-     * @return \TradoLogic\Responses\UserCreate
-     *
      * @throws Exception
+     *
+     * @return \TradoLogic\Responses\UserCreate
      */
     public function createUser(UserCreateRequest $request)
     {
@@ -141,7 +141,8 @@ class ApiClient
         ];
         $data['checksum'] = $this->getChecksum($data);
 
-        $payload = $this->request('POST', "/v1/affiliate/users", $data);
+        $payload = $this->request('POST', '/v1/affiliate/users', $data);
+
         return new UserCreateResponse($payload);
     }
 }
