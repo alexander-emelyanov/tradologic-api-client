@@ -35,18 +35,21 @@ class UserCreate extends Response
     public function getUserId()
     {
         $messageParameters = $this->getMessageParameters();
+
         return $messageParameters[static::FIELD_USER_ID];
     }
 
     public function getCysecRegulated()
     {
         $messageParameters = $this->getMessageParameters();
+
         return $messageParameters[static::FIELD_CYSES_REGULATED];
     }
 
     public function getSessionId()
     {
         $messageParameters = $this->getMessageParameters();
+
         return $messageParameters[static::FIELD_SESSION_ID];
     }
 }
