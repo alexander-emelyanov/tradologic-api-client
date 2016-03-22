@@ -87,6 +87,14 @@ class UserCreate extends Request
     }
 
     /**
+     * @return int
+     */
+    public function getDealId()
+    {
+        return $this->dealId;
+    }
+
+    /**
      * @var string
      */
     protected $userPassword;
@@ -137,6 +145,13 @@ class UserCreate extends Request
      * @var string
      */
     protected $subAffiliateId;
+
+    /**
+     * Deal ID - used for affiliates.
+     *
+     * @var int
+     */
+    protected $dealId;
 
     public function __construct($data)
     {
