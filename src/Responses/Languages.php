@@ -13,11 +13,11 @@ class Languages extends Response
      */
     protected $languages = [];
 
-    CONST FIELD_LCID = 'lcid';
+    const FIELD_LCID = 'lcid';
 
-    CONST FIELD_ENGLISH_NAME = 'language';
+    const FIELD_ENGLISH_NAME = 'language';
 
-    CONST FIELD_NATIVE_NAME = 'display';
+    const FIELD_NATIVE_NAME = 'display';
 
     public function __construct(Payload $payload)
     {

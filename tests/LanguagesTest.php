@@ -2,9 +2,10 @@
 
 namespace TradoLogic\Tests;
 
-class Languages extends TestCase
+class LanguagesTest extends TestCase
 {
-    public function testLanguages(){
+    public function testLanguages()
+    {
         $languages = $this->apiClient->languages();
         $this->assertNotEmpty($languages, 'Retrieved languages list is empty');
         foreach ($languages as $language) {

@@ -24,7 +24,7 @@ class ApiClient
 
     protected function getUrl()
     {
-        if (!isset($this->settings['url'])){
+        if (!isset($this->settings['url'])) {
             throw new Exception('URL not configured');
         }
 
@@ -33,7 +33,7 @@ class ApiClient
 
     protected function getUsername()
     {
-        if (!isset($this->settings['username'])){
+        if (!isset($this->settings['username'])) {
             throw new Exception('Affiliate username not configured');
         }
 
@@ -42,7 +42,7 @@ class ApiClient
 
     protected function getPassword()
     {
-        if (!isset($this->settings['password'])){
+        if (!isset($this->settings['password'])) {
             throw new Exception('Affiliate password not configured');
         }
 
@@ -51,7 +51,7 @@ class ApiClient
 
     protected function getAccountId()
     {
-        if (!isset($this->settings['accountId'])){
+        if (!isset($this->settings['accountId'])) {
             throw new Exception('Account ID of brand not configured');
         }
 
@@ -62,20 +62,23 @@ class ApiClient
     {
         ksort($data);
         $data = array_values($data);
-        $stringForHash = implode($data) . $this->getPassword();
+        $stringForHash = implode($data).$this->getPassword();
+
         return hash('sha256', $stringForHash);
     }
 
     /**
      * @param string $method
      * @param string $uri
-     * @param array $data
-     * @return Payload
+     * @param array  $data
+     *
      * @throws Exception
+     *
+     * @return Payload
      */
     protected function request($method, $uri, $data = [])
     {
-        $url = $this->getUrl() . $uri;
+        $url = $this->getUrl().$uri;
 
         try {
             $response = $this->httpClient->request($method, $url, [
@@ -84,14 +87,14 @@ class ApiClient
                 'headers' => [
                     'User-Agent'   => 'TradoLogic API Client',
                     'Content-Type' => 'application/json',
-                ]
+                ],
             ])->getBody()->getContents();
-        } catch (GuzzleHttp\Exception\ClientException $exception){
+        } catch (GuzzleHttp\Exception\ClientException $exception) {
+            $response = $exception->getResponse()->getBody()->getContents();
+        } catch (GuzzleHttp\Exception\ServerException $exception) {
             $response = $exception->getResponse()->getBody()->getContents();
         }
-        catch (GuzzleHttp\Exception\ServerException $exception) {
-            $response = $exception->getResponse()->getBody()->getContents();
-        }
+
         return new Payload($response);
     }
 
@@ -100,8 +103,9 @@ class ApiClient
      */
     public function countries()
     {
-        $payload = $this->request('GET', "/v1/nomenclature/countries");
+        $payload = $this->request('GET', '/v1/nomenclature/countries');
         $response = new Countries($payload);
+
         return $response->getData();
     }
 
@@ -110,8 +114,9 @@ class ApiClient
      */
     public function languages()
     {
-        $payload = $this->request('GET', "/v1/nomenclature/languages");
+        $payload = $this->request('GET', '/v1/nomenclature/languages');
         $response = new Languages($payload);
+
         return $response->getData();
     }
 
@@ -127,7 +132,8 @@ class ApiClient
             'affiliateUsername' => $this->getUsername(),
         ];
         $data['checksum'] = $this->getChecksum($data);
-        $payload = $this->request('POST', "/v1/affiliate/users", $data);
+        $payload = $this->request('POST', '/v1/affiliate/users', $data);
+
         return new Response($payload);
     }
 }
