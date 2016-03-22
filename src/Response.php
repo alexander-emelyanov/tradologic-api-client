@@ -14,6 +14,8 @@ class Response
 
     const FIELD_MESSAGE_TEXT = 'messageText';
 
+    const FIELD_MESSAGE_PARAMETERS = 'messageParameters';
+
     const FIELD_DATA = 'data';
 
     const ERROR_NONE = 200;
@@ -51,6 +53,11 @@ class Response
         if (isset($this->data[static::FIELD_MESSAGE_TEXT])) {
             return $this->data[static::FIELD_MESSAGE_TEXT];
         }
+    }
+
+    protected function getMessageParameters()
+    {
+        return isset($this->data[static::FIELD_MESSAGE_PARAMETERS]) ? $this->data[static::FIELD_MESSAGE_PARAMETERS] : null;
     }
 
     public function isSuccess()
