@@ -2,6 +2,8 @@
 
 namespace TradoLogic;
 
+use TradoLogic\Exceptions\UnauthorizedException;
+
 class Response
 {
     protected $data;
@@ -22,7 +24,7 @@ class Response
         if (!$this->isSuccess()) {
             switch ($this->getStatusCode()) {
                 case static::ERROR_UNAUTHORIZED: {
-                    // Could not validate IP error...
+                    throw new UnauthorizedException($this, $this->getMessageText());
                 }
             }
         }
@@ -32,6 +34,14 @@ class Response
     {
         if (isset($this->data[static::FIELD_HTTP_STATUS_CODE])) {
             return $this->data[static::FIELD_HTTP_STATUS_CODE];
+        }
+        return null;
+    }
+
+    protected function getMessageText()
+    {
+        if (isset($this->data[static::FIELD_MESSAGE_TEXT])) {
+            return $this->data[static::FIELD_MESSAGE_TEXT];
         }
         return null;
     }

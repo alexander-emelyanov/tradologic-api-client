@@ -26,9 +26,39 @@ Assuming your credentials is valid, you are good to go!
 ### Get countries list
 
 ```php
-/** @var \TradoLogic\Responses\GetCountries $response */
-$response = $client->getCountries();
-
 /** @var \TradoLogic\Entities\Country[] $countries */
-$countries = $response->getCountries();
+$countries = $client->countries();
+```
+
+### Get languages list
+
+```php
+/** @var \TradoLogic\Entities\Language[] $languages */
+$languages = $client->languages();
+```
+
+### Create user
+
+For ability to create user your IP should be added to whitelist. So, this operation requires authorization. You should
+provide username, password and account ID to \TradoLogic\ApiClient constructor. It should seems like this:
+
+```php
+$client = new \TradoLogic\ApiClient([
+    'url' => 'https://b2b-api.tradologic.net',
+    'username' => '<YOUR_USERNAME>',
+    'password' => '<YOUR_PASSWORD>',
+    'accountId' => <YOUR_ACCOUNT_ID>,
+]);
+```
+
+Then you can register user.
+
+```php
+$response = $client->createUser(new \TradoLogic\Requests\UserCreate([
+    'userPassword' => '<USER_PASSWORD>',
+    'userFirstName' => '<USER_FIRST_NAME>',
+    'userLastName' => '<USER_LAST_NAME>',
+    'phone' => '<USER_PHONE>',
+    'email' => '<USER_EMAIL>',
+]));
 ```

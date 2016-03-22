@@ -58,18 +58,12 @@ class ApiClient
         return $this->settings['accountId'];
     }
 
-    protected function getApiLicense()
+    protected function getChecksum($data)
     {
-        if (!isset($this->settings['apiLicense'])){
-            throw new Exception('API license of brand not configured');
-        }
-
-        return $this->settings['apiLicense'];
-    }
-
-    protected function getChecksum()
-    {
-        return hash('sha256', $this->getAccountId() . $this->getApiLicense());;
+        ksort($data);
+        $data = array_values($data);
+        $stringForHash = implode($data) . $this->getPassword();
+        return hash('sha256', $stringForHash);
     }
 
     /**
@@ -131,11 +125,9 @@ class ApiClient
             'email'             => $request->getEmail(),
             'accountId'         => $this->getAccountId(),
             'affiliateUsername' => $this->getUsername(),
-            'checksum'          => $this->getChecksum(),
         ];
-        print_r($data);
+        $data['checksum'] = $this->getChecksum($data);
         $payload = $this->request('POST', "/v1/affiliate/users", $data);
-        print_r($payload);
         return new Response($payload);
     }
 }
