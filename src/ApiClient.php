@@ -3,7 +3,8 @@
 namespace TradoLogic;
 
 use GuzzleHttp;
-use TradoLogic\Requests\UserCreate;
+use TradoLogic\Requests\UserCreate as UserCreateRequest;
+use TradoLogic\Responses\UserCreate as UserCreateResponse;
 use TradoLogic\Responses\Countries;
 use TradoLogic\Responses\Languages;
 
@@ -120,7 +121,14 @@ class ApiClient
         return $response->getData();
     }
 
-    public function createUser(UserCreate $request)
+    /**
+     * @param \TradoLogic\Requests\UserCreate $request
+     *
+     * @return \TradoLogic\Responses\UserCreate
+     *
+     * @throws Exception
+     */
+    public function createUser(UserCreateRequest $request)
     {
         $data = [
             'userFirstName'     => $request->getUserFirstName(),
@@ -132,8 +140,8 @@ class ApiClient
             'affiliateUsername' => $this->getUsername(),
         ];
         $data['checksum'] = $this->getChecksum($data);
-        $payload = $this->request('POST', '/v1/affiliate/users', $data);
 
-        return new Response($payload);
+        $payload = $this->request('POST', "/v1/affiliate/users", $data);
+        return new UserCreateResponse($payload);
     }
 }
