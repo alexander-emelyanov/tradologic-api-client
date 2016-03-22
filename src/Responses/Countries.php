@@ -13,7 +13,7 @@ class Countries extends Response
      */
     protected $countries = [];
 
-    CONST FIELD_CURRENCY = 'currency';
+    const FIELD_CURRENCY = 'currency';
 
     public function __construct(Payload $payload)
     {
@@ -25,7 +25,7 @@ class Countries extends Response
                     // Two countries from TradoLogic API have not currency.
                     // These countries: "Unknown" and "Antarctica". Real "Tear 1" countries with fat traffic of penguins and nobodies...
                     // But we should skip them...
-                    if (isset($countryInfo[static::FIELD_CURRENCY]) && $countryInfo[static::FIELD_CURRENCY]){
+                    if (isset($countryInfo[static::FIELD_CURRENCY]) && $countryInfo[static::FIELD_CURRENCY]) {
                         $this->countries[] = new Country($countryInfo);
                     }
                 }

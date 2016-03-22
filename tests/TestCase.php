@@ -2,8 +2,8 @@
 
 namespace TradoLogic\Tests;
 
+use Faker\Factory as FakerFactory;
 use TradoLogic\ApiClient;
-use \Faker\Factory as FakerFactory;
 
 class TestCase extends \PHPUnit_Framework_TestCase
 {
@@ -23,7 +23,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $url = getenv('TRADOLOGIC_URL');
-        if (!$url){
+        if (!$url) {
             throw new \Exception('Environment variable TRADOLOGIC_URL is required');
         }
         $this->apiClient = new ApiClient([
@@ -33,7 +33,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Free resources
+     * Free resources.
      */
     public function tearDown()
     {

@@ -8,15 +8,15 @@ class Response
 {
     protected $data;
 
-    CONST FIELD_HTTP_STATUS_CODE = 'httpStatusCode';
+    const FIELD_HTTP_STATUS_CODE = 'httpStatusCode';
 
-    CONST FIELD_MESSAGE_TEXT = 'messageText';
+    const FIELD_MESSAGE_TEXT = 'messageText';
 
-    CONST FIELD_DATA = 'data';
+    const FIELD_DATA = 'data';
 
-    CONST ERROR_NONE = 200;
+    const ERROR_NONE = 200;
 
-    CONST ERROR_UNAUTHORIZED = 401;
+    const ERROR_UNAUTHORIZED = 401;
 
     public function __construct(Payload $payload)
     {
@@ -35,7 +35,6 @@ class Response
         if (isset($this->data[static::FIELD_HTTP_STATUS_CODE])) {
             return $this->data[static::FIELD_HTTP_STATUS_CODE];
         }
-        return null;
     }
 
     protected function getMessageText()
@@ -43,7 +42,6 @@ class Response
         if (isset($this->data[static::FIELD_MESSAGE_TEXT])) {
             return $this->data[static::FIELD_MESSAGE_TEXT];
         }
-        return null;
     }
 
     public function isSuccess()
