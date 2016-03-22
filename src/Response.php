@@ -12,7 +12,7 @@ class Response
 
     const FIELD_MESSAGE_TYPE = 'messageType';
 
-    CONST FIELD_MESSAGE_TEXT = 'messageText';
+    const FIELD_MESSAGE_TEXT = 'messageText';
 
     const FIELD_DATA = 'data';
 
@@ -44,7 +44,6 @@ class Response
         if (isset($this->data[static::FIELD_MESSAGE_TYPE])) {
             return $this->data[static::FIELD_MESSAGE_TYPE];
         }
-        return null;
     }
 
     protected function getMessageText()
