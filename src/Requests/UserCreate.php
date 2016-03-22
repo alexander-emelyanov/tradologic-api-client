@@ -79,6 +79,14 @@ class UserCreate extends Request
     }
 
     /**
+     * @return int
+     */
+    public function getAffiliateId()
+    {
+        return $this->affiliateId;
+    }
+
+    /**
      * @return string
      */
     public function getSubAffiliateId()
@@ -140,6 +148,11 @@ class UserCreate extends Request
      * @var string
      */
     protected $userIpAddress;
+
+    /**
+     * @var int
+     */
+    protected $affiliateId;
 
     /**
      * @var string

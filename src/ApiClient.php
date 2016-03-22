@@ -136,9 +136,11 @@ class ApiClient
             'userPassword'      => $request->getUserPassword(),
             'phone'             => $request->getPhone(),
             'email'             => $request->getEmail(),
-            'accountId'         => $this->getAccountId(),
             'affiliateUsername' => $this->getUsername(),
             'dealId'            => $request->getDealId(),
+            'accountId'         => $this->getAccountId(),
+            'affiliateId'       => $request->getAffiliateId(),
+            'subAffiliateId'    => $request->getSubAffiliateId(),
         ];
         $data['checksum'] = $this->getChecksum($data);
 
