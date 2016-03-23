@@ -1,7 +1,7 @@
 # TradoLogic platform API client
 
 [![Build Status](https://img.shields.io/travis/alexander-emelyanov/tradologic-api-client/master.svg?style=flat-square)](https://travis-ci.org/alexander-emelyanov/tradologic-api-client)
-[![StyleCI](https://styleci.io/repos/53869640/shield?)](https://styleci.io/repos/53869640)
+[![StyleCI](https://styleci.io/repos/53869640/shield)](https://styleci.io/repos/53869640)
 [![Code Climate](https://img.shields.io/codeclimate/github/alexander-emelyanov/tradologic-api-client.svg?style=flat-square)](https://codeclimate.com/github/alexander-emelyanov/tradologic-api-client)
 
 This repository contains PHP Client for TradeSmarter platform.
