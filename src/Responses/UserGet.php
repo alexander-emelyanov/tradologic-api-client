@@ -40,28 +40,32 @@ class UserGet extends Response
     /**
      * @return int
      */
-    public function getUserId(){
+    public function getUserId()
+    {
         return $this->data[static::FIELD_USER_ID];
     }
 
     /**
      * @return string
      */
-    public function getFirstName(){
+    public function getFirstName()
+    {
         return $this->data[static::FIELD_FIRST_NAME];
     }
 
     /**
      * @return string
      */
-    public function getLastName(){
+    public function getLastName()
+    {
         return $this->data[static::FIELD_LAST_NAME];
     }
 
     /**
      * @return float
      */
-    public function getBalance(){
+    public function getBalance()
+    {
         return $this->data[static::FIELD_BALANCE];
     }
 
@@ -71,21 +75,24 @@ class UserGet extends Response
      *
      * @return string
      */
-    public function getCurrency(){
+    public function getCurrency()
+    {
         return $this->data[static::FIELD_CURRENCY];
     }
 
     /**
      * @return string
      */
-    public function getConversionStatus(){
+    public function getConversionStatus()
+    {
         return $this->data[static::FIELD_CONVERSION_STATUS];
     }
 
     /**
      * @return string
      */
-    public function getContactedDate(){
+    public function getContactedDate()
+    {
         return $this->data[static::FIELD_CONTACTED_DATE];
     }
 }

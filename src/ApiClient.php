@@ -88,15 +88,15 @@ class ApiClient
 
         try {
             switch (strtoupper($method)) {
-                case 'GET' : {
+                case 'GET': {
                     $response = $this->getRequest($url, $data);
                     break;
                 }
-                case 'POST' : {
+                case 'POST': {
                     $response = $this->postRequest($url, $data);
                     break;
                 }
-                default : {
+                default: {
                     throw new \Exception("Unknown request method [$method]");
                 }
             }
@@ -115,7 +115,7 @@ class ApiClient
 
     protected function getRequest($url, $data)
     {
-        $url .= ('?' . http_build_query($data));
+        $url .= ('?'.http_build_query($data));
         return $this->httpClient->get($url, [
             'headers' => [
                 'User-Agent'   => 'TradoLogic API Client',
@@ -221,7 +221,7 @@ class ApiClient
             'accountId'         => $this->getAccountId(),
             'email'             => $request->getEmail(),
             'password'          => $request->getPassword(),
-            'userIpAddress'          => $request->getUserIpAddress(),
+            'userIpAddress'     => $request->getUserIpAddress(),
         ];
         $data['checksum'] = $this->getChecksum($data);
 
