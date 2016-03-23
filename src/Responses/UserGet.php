@@ -8,7 +8,6 @@ use TradoLogic\Response;
 
 class UserGet extends Response
 {
-
     const FIELD_USER_ID = 'id';
 
     const FIELD_FIRST_NAME = 'firstName';

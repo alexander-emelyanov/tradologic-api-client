@@ -116,6 +116,7 @@ class ApiClient
     protected function getRequest($url, $data)
     {
         $url .= ('?'.http_build_query($data));
+
         return $this->httpClient->get($url, [
             'headers' => [
                 'User-Agent'   => 'TradoLogic API Client',
@@ -127,7 +128,7 @@ class ApiClient
     protected function postRequest($url, $data)
     {
         return $this->httpClient->post($url, [
-            'body' => json_encode($data),
+            'body'    => json_encode($data),
             'headers' => [
                 'User-Agent'   => 'TradoLogic API Client',
                 'Content-Type' => 'application/json',
@@ -202,7 +203,7 @@ class ApiClient
         $data['checksum'] = $this->getChecksum($data);
         unset($data['userId']);
 
-        $payload = $this->request('GET', '/v1/affiliate/users/' . $request->getUserId(), $data);
+        $payload = $this->request('GET', '/v1/affiliate/users/'.$request->getUserId(), $data);
 
         return new UserGetResponse($payload);
     }
