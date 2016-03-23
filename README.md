@@ -66,3 +66,22 @@ $response = $client->createUser(new \TradoLogic\Requests\UserCreate([
     'email' => '<USER_EMAIL>',
 ]));
 ```
+
+### Login user
+
+For redirect user to TradoLogic base website you should get Session ID for this user.
+
+```php
+$request = new \TradoLogic\Requests\UserLogin([
+    'email' => 'alex.emelianov@gmail.com',
+    'password' => 'portal',
+    'userIpAddress' => '94.74.194.219',
+]);
+
+/** @var $response \TradoLogic\Responses\UserLogin */
+$response = $client->loginUser($request);
+
+if ($response->isSuccess()) {
+    echo ("User logged successfully with Session ID: " . $response->getSessionId() . PHP_EOL);
+}
+```
