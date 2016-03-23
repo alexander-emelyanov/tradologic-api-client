@@ -55,7 +55,8 @@ class ApiClient implements LoggerAwareInterface
         }
 
         $this->httpClient = new GuzzleHttp\Client([
-            'handler' => $stack,
+            'base_uri' => $this->getUrl(),
+            'handler'  => $stack,
         ]);
 
         return $this->httpClient;
@@ -118,16 +119,14 @@ class ApiClient implements LoggerAwareInterface
      */
     protected function request($method, $uri, $data = [])
     {
-        $url = $this->getUrl().$uri;
-
         try {
             switch (strtoupper($method)) {
                 case 'GET': {
-                    $response = $this->getRequest($url, $data);
+                    $response = $this->getRequest($uri, $data);
                     break;
                 }
                 case 'POST': {
-                    $response = $this->postRequest($url, $data);
+                    $response = $this->postRequest($uri, $data);
                     break;
                 }
                 default: {
