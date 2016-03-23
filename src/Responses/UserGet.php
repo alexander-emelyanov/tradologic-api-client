@@ -3,7 +3,6 @@
 namespace TradoLogic\Responses;
 
 use TradoLogic\Exception;
-use TradoLogic\Exceptions\EmailAlreadyExistsException;
 use TradoLogic\Payload;
 use TradoLogic\Response;
 

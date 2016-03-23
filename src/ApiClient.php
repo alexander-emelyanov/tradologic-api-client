@@ -5,10 +5,12 @@ namespace TradoLogic;
 use GuzzleHttp;
 use TradoLogic\Requests\UserCreate as UserCreateRequest;
 use TradoLogic\Requests\UserGet as UserGetRequest;
+use TradoLogic\Requests\UserLogin as UserLoginRequest;
 use TradoLogic\Responses\Countries;
 use TradoLogic\Responses\Languages;
 use TradoLogic\Responses\UserCreate as UserCreateResponse;
 use TradoLogic\Responses\UserGet as UserGetResponse;
+use TradoLogic\Responses\UserLogin as UserLoginResponse;
 
 class ApiClient
 {
@@ -203,5 +205,28 @@ class ApiClient
         $payload = $this->request('GET', '/v1/affiliate/users/' . $request->getUserId(), $data);
 
         return new UserGetResponse($payload);
+    }
+
+    /**
+     * @param \TradoLogic\Requests\UserLogin $request
+     *
+     * @throws \TradoLogic\Exception
+     *
+     * @return \TradoLogic\Responses\UserLogin
+     */
+    public function loginUser(UserLoginRequest $request)
+    {
+        $data = [
+            'affiliateUsername' => $this->getUsername(),
+            'accountId'         => $this->getAccountId(),
+            'email'             => $request->getEmail(),
+            'password'          => $request->getPassword(),
+            'userIpAddress'          => $request->getUserIpAddress(),
+        ];
+        $data['checksum'] = $this->getChecksum($data);
+
+        $payload = $this->request('POST', '/v1/affiliate/users/login', $data);
+
+        return new UserLoginResponse($payload);
     }
 }
