@@ -4,9 +4,11 @@ namespace TradoLogic;
 
 use GuzzleHttp;
 use TradoLogic\Requests\UserCreate as UserCreateRequest;
+use TradoLogic\Requests\UserGet as UserGetRequest;
 use TradoLogic\Responses\Countries;
 use TradoLogic\Responses\Languages;
 use TradoLogic\Responses\UserCreate as UserCreateResponse;
+use TradoLogic\Responses\UserGet as UserGetResponse;
 
 class ApiClient
 {
@@ -29,7 +31,7 @@ class ApiClient
             throw new Exception('URL not configured');
         }
 
-        return $this->settings['url'];
+        return ltrim($this->settings['url'], '/');
     }
 
     protected function getUsername()
@@ -73,30 +75,62 @@ class ApiClient
      * @param string $uri
      * @param array  $data
      *
-     * @throws Exception
+     * @throws \TradoLogic\Exception
+     * @throws \Exception
      *
-     * @return Payload
+     * @return \TradoLogic\Payload
      */
     protected function request($method, $uri, $data = [])
     {
         $url = $this->getUrl().$uri;
 
         try {
-            $response = $this->httpClient->request($method, $url, [
-                'body' => json_encode($data),
-                // 'debug' => true,
-                'headers' => [
-                    'User-Agent'   => 'TradoLogic API Client',
-                    'Content-Type' => 'application/json',
-                ],
-            ])->getBody()->getContents();
+            switch (strtoupper($method)) {
+                case 'GET' : {
+                    $response = $this->getRequest($url, $data);
+                    break;
+                }
+                case 'POST' : {
+                    $response = $this->postRequest($url, $data);
+                    break;
+                }
+                default : {
+                    throw new \Exception("Unknown request method [$method]");
+                }
+            }
         } catch (GuzzleHttp\Exception\ClientException $exception) {
             $response = $exception->getResponse()->getBody()->getContents();
         } catch (GuzzleHttp\Exception\ServerException $exception) {
             $response = $exception->getResponse()->getBody()->getContents();
         }
 
-        return new Payload($response);
+        try {
+            return new Payload($response);
+        } catch (\UnexpectedValueException $e) {
+            throw new \Exception('Invalid API response');
+        }
+    }
+
+    protected function getRequest($url, $data)
+    {
+        $url .= ('?' . http_build_query($data));
+        return $this->httpClient->get($url, [
+            'headers' => [
+                'User-Agent'   => 'TradoLogic API Client',
+                'Content-Type' => 'application/json',
+            ],
+        ])->getBody()->getContents();
+    }
+
+    protected function postRequest($url, $data)
+    {
+        return $this->httpClient->post($url, [
+            'body' => json_encode($data),
+            'headers' => [
+                'User-Agent'   => 'TradoLogic API Client',
+                'Content-Type' => 'application/json',
+            ],
+        ])->getBody()->getContents();
     }
 
     /**
@@ -124,21 +158,21 @@ class ApiClient
     /**
      * @param \TradoLogic\Requests\UserCreate $request
      *
-     * @throws Exception
+     * @throws \TradoLogic\Exception
      *
      * @return \TradoLogic\Responses\UserCreate
      */
     public function createUser(UserCreateRequest $request)
     {
         $data = [
+            'affiliateUsername' => $this->getUsername(),
+            'accountId'         => $this->getAccountId(),
             'userFirstName'     => $request->getUserFirstName(),
             'userLastName'      => $request->getUserLastName(),
             'userPassword'      => $request->getUserPassword(),
             'phone'             => $request->getPhone(),
             'email'             => $request->getEmail(),
-            'affiliateUsername' => $this->getUsername(),
             'dealId'            => $request->getDealId(),
-            'accountId'         => $this->getAccountId(),
             'affiliateId'       => $request->getAffiliateId(),
             'subAffiliateId'    => $request->getSubAffiliateId(),
         ];
@@ -147,5 +181,27 @@ class ApiClient
         $payload = $this->request('POST', '/v1/affiliate/users', $data);
 
         return new UserCreateResponse($payload);
+    }
+
+    /**
+     * @param \TradoLogic\Requests\UserGet $request
+     *
+     * @throws \TradoLogic\Exception
+     *
+     * @return \TradoLogic\Responses\UserGet
+     */
+    public function getUser(UserGetRequest $request)
+    {
+        $data = [
+            'affiliateUsername' => $this->getUsername(),
+            'accountId'         => $this->getAccountId(),
+            'userId'            => $request->getUserId(),
+        ];
+        $data['checksum'] = $this->getChecksum($data);
+        unset($data['userId']);
+
+        $payload = $this->request('GET', '/v1/affiliate/users/' . $request->getUserId(), $data);
+
+        return new UserGetResponse($payload);
     }
 }
