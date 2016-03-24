@@ -33,7 +33,8 @@ class ApiClient implements LoggerAwareInterface
         $this->settings = $settings;
     }
 
-    public function setLogger(LoggerInterface $logger){
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
 
@@ -45,7 +46,7 @@ class ApiClient implements LoggerAwareInterface
 
         $stack = GuzzleHttp\HandlerStack::create();
 
-        if ($this->logger instanceof LoggerInterface){
+        if ($this->logger instanceof LoggerInterface) {
             $stack->push(GuzzleHttp\Middleware::log(
                 $this->logger,
                 new GuzzleHttp\MessageFormatter(GuzzleHttp\MessageFormatter::DEBUG)
@@ -137,10 +138,10 @@ class ApiClient implements LoggerAwareInterface
             $response = $exception->getResponse()->getBody();
         }
 
-        /** @var \Psr\Http\Message\StreamInterface $response */
+        /* @var \Psr\Http\Message\StreamInterface $response */
 
         try {
-            return new Payload((string)$response);
+            return new Payload((string) $response);
         } catch (\UnexpectedValueException $e) {
             throw new \Exception('Invalid API response');
         }
