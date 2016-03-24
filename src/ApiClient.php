@@ -46,12 +46,10 @@ class ApiClient implements LoggerAwareInterface
         $stack = GuzzleHttp\HandlerStack::create();
 
         if ($this->logger instanceof LoggerInterface){
-            $stack->push(
-                GuzzleHttp\Middleware::log(
-                    $this->logger,
-                    new GuzzleHttp\MessageFormatter()
-                )
-            );
+            $stack->push(GuzzleHttp\Middleware::log(
+                $this->logger,
+                new GuzzleHttp\MessageFormatter(GuzzleHttp\MessageFormatter::DEBUG)
+            ));
         }
 
         $this->httpClient = new GuzzleHttp\Client([
@@ -134,13 +132,15 @@ class ApiClient implements LoggerAwareInterface
                 }
             }
         } catch (GuzzleHttp\Exception\ClientException $exception) {
-            $response = $exception->getResponse()->getBody()->getContents();
+            $response = $exception->getResponse()->getBody();
         } catch (GuzzleHttp\Exception\ServerException $exception) {
-            $response = $exception->getResponse()->getBody()->getContents();
+            $response = $exception->getResponse()->getBody();
         }
 
+        /** @var \Psr\Http\Message\StreamInterface $response */
+
         try {
-            return new Payload($response);
+            return new Payload((string)$response);
         } catch (\UnexpectedValueException $e) {
             throw new \Exception('Invalid API response');
         }
@@ -156,7 +156,7 @@ class ApiClient implements LoggerAwareInterface
                 'User-Agent'   => 'TradoLogic API Client',
                 'Content-Type' => 'application/json',
             ],
-        ])->getBody()->getContents();
+        ])->getBody();
     }
 
     protected function postRequest($url, $data)
@@ -168,7 +168,7 @@ class ApiClient implements LoggerAwareInterface
                 'User-Agent'   => 'TradoLogic API Client',
                 'Content-Type' => 'application/json',
             ],
-        ])->getBody()->getContents();
+        ])->getBody();
     }
 
     /**
