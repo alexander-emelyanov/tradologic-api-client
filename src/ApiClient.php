@@ -3,6 +3,8 @@
 namespace TradoLogic;
 
 use GuzzleHttp;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use TradoLogic\Requests\UserCreate as UserCreateRequest;
 use TradoLogic\Requests\UserGet as UserGetRequest;
 use TradoLogic\Requests\UserLogin as UserLoginRequest;
@@ -12,7 +14,7 @@ use TradoLogic\Responses\UserCreate as UserCreateResponse;
 use TradoLogic\Responses\UserGet as UserGetResponse;
 use TradoLogic\Responses\UserLogin as UserLoginResponse;
 
-class ApiClient
+class ApiClient implements LoggerAwareInterface
 {
     protected $settings = [];
 
@@ -21,10 +23,41 @@ class ApiClient
      */
     protected $httpClient;
 
-    public function __construct($settings = [], GuzzleHttp\ClientInterface $httpClient = null)
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected $logger;
+
+    public function __construct($settings = [])
     {
         $this->settings = $settings;
-        $this->httpClient = $httpClient ?: new GuzzleHttp\Client();
+    }
+
+    public function setLogger(LoggerInterface $logger){
+        $this->logger = $logger;
+    }
+
+    protected function getHttpClient()
+    {
+        if (!is_null($this->httpClient)) {
+            return $this->httpClient;
+        }
+
+        $stack = GuzzleHttp\HandlerStack::create();
+
+        if ($this->logger instanceof LoggerInterface){
+            $stack->push(GuzzleHttp\Middleware::log(
+                $this->logger,
+                new GuzzleHttp\MessageFormatter(GuzzleHttp\MessageFormatter::DEBUG)
+            ));
+        }
+
+        $this->httpClient = new GuzzleHttp\Client([
+            'base_uri' => $this->getUrl(),
+            'handler'  => $stack,
+        ]);
+
+        return $this->httpClient;
     }
 
     protected function getUrl()
@@ -84,16 +117,14 @@ class ApiClient
      */
     protected function request($method, $uri, $data = [])
     {
-        $url = $this->getUrl().$uri;
-
         try {
             switch (strtoupper($method)) {
                 case 'GET': {
-                    $response = $this->getRequest($url, $data);
+                    $response = $this->getRequest($uri, $data);
                     break;
                 }
                 case 'POST': {
-                    $response = $this->postRequest($url, $data);
+                    $response = $this->postRequest($uri, $data);
                     break;
                 }
                 default: {
@@ -101,13 +132,15 @@ class ApiClient
                 }
             }
         } catch (GuzzleHttp\Exception\ClientException $exception) {
-            $response = $exception->getResponse()->getBody()->getContents();
+            $response = $exception->getResponse()->getBody();
         } catch (GuzzleHttp\Exception\ServerException $exception) {
-            $response = $exception->getResponse()->getBody()->getContents();
+            $response = $exception->getResponse()->getBody();
         }
 
+        /** @var \Psr\Http\Message\StreamInterface $response */
+
         try {
-            return new Payload($response);
+            return new Payload((string)$response);
         } catch (\UnexpectedValueException $e) {
             throw new \Exception('Invalid API response');
         }
@@ -117,23 +150,25 @@ class ApiClient
     {
         $url .= ('?'.http_build_query($data));
 
-        return $this->httpClient->get($url, [
+        return $this->getHttpClient()
+            ->get($url, [
             'headers' => [
                 'User-Agent'   => 'TradoLogic API Client',
                 'Content-Type' => 'application/json',
             ],
-        ])->getBody()->getContents();
+        ])->getBody();
     }
 
     protected function postRequest($url, $data)
     {
-        return $this->httpClient->post($url, [
+        return $this->getHttpClient()
+            ->post($url, [
             'body'    => json_encode($data),
             'headers' => [
                 'User-Agent'   => 'TradoLogic API Client',
                 'Content-Type' => 'application/json',
             ],
-        ])->getBody()->getContents();
+        ])->getBody();
     }
 
     /**
