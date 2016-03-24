@@ -214,7 +214,6 @@ class ApiClient implements LoggerAwareInterface
             'dealId'            => $request->getDealId(),
             'subAffiliateId'    => $request->getSubAffiliateId(),
             'countryCode'       => $request->getCountryCode(),
-            'userIdAddress'     => $request->getUserIpAddress(),
         ];
         $data['checksum'] = $this->getChecksum($data);
 
