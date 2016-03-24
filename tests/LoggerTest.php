@@ -1,6 +1,7 @@
 <?php
 
 namespace TradoLogic\Tests;
+
 use Monolog\Logger;
 
 class LoggerTest extends TestCase
