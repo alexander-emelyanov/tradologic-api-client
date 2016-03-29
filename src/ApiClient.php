@@ -274,10 +274,10 @@ class ApiClient implements LoggerAwareInterface
     /**
      * Retrieves the deposits of the affiliate's users by a selected timestamp.
      *
-     * @param int $fromTimestamp
-     * @param int $toTimestamp
+     * @param int $fromTimestamp The date after which the deposit was confirmed.
+     * @param int $toTimestamp The date before which the deposit was confirmed.
      *
-     * @return \TradoLogic\Responses\Deposits
+     * @return \TradoLogic\Entities\Deposit[]
      *
      * @throws \Exception
      */
@@ -295,7 +295,8 @@ class ApiClient implements LoggerAwareInterface
         $data['checksum'] = $this->getChecksum($data);
 
         $payload = $this->request('GET', '/v1/affiliate/deposits', $data);
+        $response = new DepositsResponse($payload);
 
-        return new DepositsResponse($payload);
+        return $response->getData();
     }
 }

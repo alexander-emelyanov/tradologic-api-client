@@ -85,3 +85,10 @@ if ($response->isSuccess()) {
     echo ("User logged successfully with Session ID: " . $response->getSessionId() . PHP_EOL);
 }
 ```
+
+### Get deposits
+
+```php
+/** @var $response \TradoLogic\Entities\Deposit[] */
+$response = $client->deposits();
+```
