@@ -9,6 +9,7 @@ use TradoLogic\Requests\UserCreate as UserCreateRequest;
 use TradoLogic\Requests\UserGet as UserGetRequest;
 use TradoLogic\Requests\UserLogin as UserLoginRequest;
 use TradoLogic\Responses\Countries;
+use TradoLogic\Responses\Deposits as DepositsResponse;
 use TradoLogic\Responses\Languages;
 use TradoLogic\Responses\UserCreate as UserCreateResponse;
 use TradoLogic\Responses\UserGet as UserGetResponse;
@@ -267,5 +268,34 @@ class ApiClient implements LoggerAwareInterface
         $payload = $this->request('POST', '/v1/affiliate/users/login', $data);
 
         return new UserLoginResponse($payload);
+    }
+
+
+    /**
+     * Retrieves the deposits of the affiliate's users by a selected timestamp.
+     *
+     * @param int $fromTimestamp
+     * @param int $toTimestamp
+     *
+     * @return \TradoLogic\Responses\Deposits
+     *
+     * @throws \Exception
+     */
+    public function getDeposits($fromTimestamp = 0, $toTimestamp = null)
+    {
+        if ($toTimestamp === null) {
+            $toTimestamp = time();
+        }
+        $data = [
+            'affiliateUsername' => $this->getUsername(),
+            'accountId'         => $this->getAccountId(),
+            'confirmedAfter'    => max(1, intval($fromTimestamp)),
+            'confirmedBefore'   => max(1, intval($toTimestamp)),
+        ];
+        $data['checksum'] = $this->getChecksum($data);
+
+        $payload = $this->request('GET', '/v1/affiliate/deposits', $data);
+
+        return new DepositsResponse($payload);
     }
 }
