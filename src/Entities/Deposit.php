@@ -177,6 +177,7 @@ class Deposit
         date_default_timezone_set('UTC');
         $timestamp = strtotime($this->requestTime);
         date_default_timezone_set($oldTimeZone);
+
         return $timestamp;
     }
 
@@ -189,7 +190,7 @@ class Deposit
         date_default_timezone_set('UTC');
         $timestamp = strtotime($this->confirmTime);
         date_default_timezone_set($oldTimeZone);
+
         return $timestamp;
     }
-
 }
