@@ -64,7 +64,7 @@ class ApiClient implements LoggerAwareInterface
     protected function getUrl()
     {
         if (!isset($this->settings['url'])) {
-            throw new Exception('URL not configured');
+            throw new \Exception('URL not configured');
         }
 
         return ltrim($this->settings['url'], '/');
@@ -73,7 +73,7 @@ class ApiClient implements LoggerAwareInterface
     protected function getUsername()
     {
         if (!isset($this->settings['username'])) {
-            throw new Exception('Affiliate username not configured');
+            throw new \Exception('Affiliate username not configured');
         }
 
         return $this->settings['username'];
@@ -82,7 +82,7 @@ class ApiClient implements LoggerAwareInterface
     protected function getPassword()
     {
         if (!isset($this->settings['password'])) {
-            throw new Exception('Affiliate password not configured');
+            throw new \Exception('Affiliate password not configured');
         }
 
         return $this->settings['password'];
@@ -91,7 +91,7 @@ class ApiClient implements LoggerAwareInterface
     protected function getAccountId()
     {
         if (!isset($this->settings['accountId'])) {
-            throw new Exception('Account ID of brand not configured');
+            throw new \Exception('Account ID of brand not configured');
         }
 
         return $this->settings['accountId'];
