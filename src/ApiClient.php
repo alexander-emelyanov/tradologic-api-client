@@ -270,16 +270,15 @@ class ApiClient implements LoggerAwareInterface
         return new UserLoginResponse($payload);
     }
 
-
     /**
      * Retrieves the deposits of the affiliate's users by a selected timestamp.
      *
      * @param int $fromTimestamp The date after which the deposit was confirmed.
-     * @param int $toTimestamp The date before which the deposit was confirmed.
-     *
-     * @return \TradoLogic\Entities\Deposit[]
+     * @param int $toTimestamp   The date before which the deposit was confirmed.
      *
      * @throws \Exception
+     *
+     * @return \TradoLogic\Entities\Deposit[]
      */
     public function getDeposits($fromTimestamp = 0, $toTimestamp = null)
     {
