@@ -212,12 +212,17 @@ class ApiClient implements LoggerAwareInterface
             'userPassword'      => $request->getUserPassword(),
             'phone'             => $request->getPhone(),
             'email'             => $request->getEmail(),
-            'dealId'            => $request->getDealId(),
             'subAffiliateId'    => $request->getSubAffiliateId(),
             'countryCode'       => $request->getCountryCode(),
             'userIpAddress'     => $request->getUserIpAddress(),
             'languageCode'      => $request->getLanguageCode(),
         ];
+
+        // Deal ID should be passed only for brands that are using this entity.
+        if (!is_null($request->getDealId())){
+            $data['dealId'] = $request->getDealId();
+        }
+
         $data['checksum'] = $this->getChecksum($data);
 
         $payload = $this->request('POST', '/v1/affiliate/users', $data);
