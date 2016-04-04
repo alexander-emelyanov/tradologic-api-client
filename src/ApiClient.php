@@ -220,7 +220,7 @@ class ApiClient implements LoggerAwareInterface
         ];
 
         // Deal ID should be passed only for brands that are using this entity.
-        if (!is_null($request->getDealId())){
+        if (!is_null($request->getDealId())) {
             $data['dealId'] = $request->getDealId();
         }
 
