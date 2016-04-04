@@ -8,7 +8,7 @@ use TradoLogic\Response;
 
 class UserGet extends Response
 {
-    const FIELD_USER_ID = 'id';
+    const FIELD_USER_ID = 'userId';
 
     const FIELD_FIRST_NAME = 'firstName';
 
@@ -41,7 +41,8 @@ class UserGet extends Response
      */
     public function getUserId()
     {
-        return $this->data[static::FIELD_USER_ID];
+        $data = $this->data->getData()[static::FIELD_DATA];
+        return $data[static::FIELD_USER_ID];
     }
 
     /**
@@ -49,7 +50,8 @@ class UserGet extends Response
      */
     public function getFirstName()
     {
-        return $this->data[static::FIELD_FIRST_NAME];
+        $data = $this->data->getData()[static::FIELD_DATA];
+        return $data[static::FIELD_FIRST_NAME];
     }
 
     /**
@@ -57,7 +59,8 @@ class UserGet extends Response
      */
     public function getLastName()
     {
-        return $this->data[static::FIELD_LAST_NAME];
+        $data = $this->data->getData()[static::FIELD_DATA];
+        return $data[static::FIELD_LAST_NAME];
     }
 
     /**
@@ -65,7 +68,8 @@ class UserGet extends Response
      */
     public function getBalance()
     {
-        return $this->data[static::FIELD_BALANCE];
+        $data = $this->data->getData()[static::FIELD_DATA];
+        return $data[static::FIELD_BALANCE];
     }
 
     /**
@@ -76,7 +80,8 @@ class UserGet extends Response
      */
     public function getCurrency()
     {
-        return $this->data[static::FIELD_CURRENCY];
+        $data = $this->data->getData()[static::FIELD_DATA];
+        return $data[static::FIELD_CURRENCY];
     }
 
     /**
@@ -84,7 +89,8 @@ class UserGet extends Response
      */
     public function getConversionStatus()
     {
-        return $this->data[static::FIELD_CONVERSION_STATUS];
+        $data = $this->data->getData()[static::FIELD_DATA];
+        return $data[static::FIELD_CONVERSION_STATUS];
     }
 
     /**
@@ -92,6 +98,7 @@ class UserGet extends Response
      */
     public function getContactedDate()
     {
-        return $this->data[static::FIELD_CONTACTED_DATE];
+        $data = $this->data->getData()[static::FIELD_DATA];
+        return $data[static::FIELD_CONTACTED_DATE];
     }
 }
