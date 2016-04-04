@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 use TradoLogic\Requests\UserCreate as UserCreateRequest;
 use TradoLogic\Requests\UserGet as UserGetRequest;
 use TradoLogic\Requests\UserLogin as UserLoginRequest;
+use TradoLogic\Responses\BinaryOptions as BinaryOptionsResponse;
 use TradoLogic\Responses\Countries;
 use TradoLogic\Responses\Deposits as DepositsResponse;
 use TradoLogic\Responses\Languages;
@@ -300,6 +301,26 @@ class ApiClient implements LoggerAwareInterface
 
         $payload = $this->request('GET', '/v1/affiliate/deposits', $data);
         $response = new DepositsResponse($payload);
+
+        return $response->getData();
+    }
+
+    /**
+     * Retrieves all active Binary options.
+     *
+     * @throws \Exception
+     *
+     * @return \TradoLogic\Entities\Options\Binary[]
+     */
+    public function getBinaryOptions()
+    {
+        $data = [
+            'affiliateUsername' => $this->getUsername(),
+            'accountId'         => $this->getAccountId(),
+        ];
+        $data['checksum'] = $this->getChecksum($data);
+        $payload = $this->request('GET', '/v1/affiliate/options/binary', $data);
+        $response = new BinaryOptionsResponse($payload);
 
         return $response->getData();
     }
