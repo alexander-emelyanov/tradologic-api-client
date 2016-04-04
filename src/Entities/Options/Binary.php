@@ -3,10 +3,8 @@
 namespace TradoLogic\Entities\Options;
 
 /**
- * Class Binary
- * @package TradoLogic\Entities\Options
+ * Class Binary.
  */
-
 class Binary
 {
     public function __construct($data)
