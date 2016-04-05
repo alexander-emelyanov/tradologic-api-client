@@ -92,3 +92,18 @@ if ($response->isSuccess()) {
 /** @var $response \TradoLogic\Entities\Deposit[] */
 $response = $client->deposits();
 ```
+
+### Get active binary options
+
+For trading integration you must get list of active binary options. You can do it really easy:
+
+```php
+/** @var \TradoLogic\Entities\Options\Binary[] $options */
+$options = $client->getBinaryOptions();
+```
+
+Then you can open positions (binary options) for your customers.
+
+```php
+$client->createBinaryOption(new \TradoLogic\Requests\BinaryOptionCreate(<User ID>, <Option ID>, <Volume>, <Is Call>));
+```

@@ -5,9 +5,11 @@ namespace TradoLogic;
 use GuzzleHttp;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
+use TradoLogic\Requests\BinaryOptionCreate as BinaryOptionCreateRequest;
 use TradoLogic\Requests\UserCreate as UserCreateRequest;
 use TradoLogic\Requests\UserGet as UserGetRequest;
 use TradoLogic\Requests\UserLogin as UserLoginRequest;
+use TradoLogic\Responses\BinaryOptionCreate as BinaryOptionCreateResponse;
 use TradoLogic\Responses\BinaryOptions as BinaryOptionsResponse;
 use TradoLogic\Responses\Countries;
 use TradoLogic\Responses\Deposits as DepositsResponse;
@@ -323,5 +325,26 @@ class ApiClient implements LoggerAwareInterface
         $response = new BinaryOptionsResponse($payload);
 
         return $response->getData();
+    }
+
+    /**
+     * @param \TradoLogic\Requests\BinaryOptionCreate $request
+     *
+     * @return \TradoLogic\Responses\BinaryOptionCreate
+     */
+    public function createBinaryOption(BinaryOptionCreateRequest $request)
+    {
+        $data = [
+            'optionId'          => $request->getOptionId(),
+            'userId'            => $request->getUserId(),
+            'isCall'            => $request->getIsCall(),
+            'volume'            => $request->getVolume(),
+            'affiliateUsername' => $this->getUsername(),
+            'accountId'         => $this->getAccountId(),
+        ];
+        $data['checksum'] = $this->getChecksum($data);
+        $payload = $this->request('POST', '/v1/affiliate/trades/binary', $data);
+
+        return new BinaryOptionCreateResponse($payload);
     }
 }

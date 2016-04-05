@@ -2,7 +2,9 @@
 
 namespace TradoLogic;
 
+use TradoLogic\Exceptions\FraudUserSuspendedException;
 use TradoLogic\Exceptions\UnauthorizedException;
+use TradoLogic\Exceptions\UnknownException;
 
 class Response
 {
@@ -22,16 +24,39 @@ class Response
 
     const ERROR_NONE_MAX = 299;
 
+    const ERROR_BAD_REQUEST = 400;
+
     const ERROR_UNAUTHORIZED = 401;
+
+    const ERROR_MESSAGE_TYPE_FRAUD_USER_SUSPENDED = 'Fraud_User_Suspended';
 
     public function __construct(Payload $payload)
     {
         $this->data = $payload;
         if (!$this->isSuccess()) {
             switch ($this->getStatusCode()) {
+                case static::ERROR_BAD_REQUEST: {
+                    $this->processMessageType();
+                    break;
+                }
                 case static::ERROR_UNAUTHORIZED: {
                     throw new UnauthorizedException($this, $this->getMessageText());
                 }
+                defauLt: {
+                    throw new UnknownException($this, 'Unknown TradoLogic exception');
+                }
+            }
+        }
+    }
+
+    protected function processMessageType()
+    {
+        switch ($this->getMessageType()) {
+            case static::ERROR_MESSAGE_TYPE_FRAUD_USER_SUSPENDED: {
+                throw new FraudUserSuspendedException($this, $this->getMessageText());
+            }
+            default: {
+                throw new Exception($this, 'Unknown message type');
             }
         }
     }
