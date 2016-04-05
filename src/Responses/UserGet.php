@@ -42,6 +42,7 @@ class UserGet extends Response
     public function getUserId()
     {
         $data = $this->data->getData()[static::FIELD_DATA];
+
         return $data[static::FIELD_USER_ID];
     }
 
@@ -51,6 +52,7 @@ class UserGet extends Response
     public function getFirstName()
     {
         $data = $this->data->getData()[static::FIELD_DATA];
+
         return $data[static::FIELD_FIRST_NAME];
     }
 
@@ -60,6 +62,7 @@ class UserGet extends Response
     public function getLastName()
     {
         $data = $this->data->getData()[static::FIELD_DATA];
+
         return $data[static::FIELD_LAST_NAME];
     }
 
@@ -69,6 +72,7 @@ class UserGet extends Response
     public function getBalance()
     {
         $data = $this->data->getData()[static::FIELD_DATA];
+
         return $data[static::FIELD_BALANCE];
     }
 
@@ -81,6 +85,7 @@ class UserGet extends Response
     public function getCurrency()
     {
         $data = $this->data->getData()[static::FIELD_DATA];
+
         return $data[static::FIELD_CURRENCY];
     }
 
@@ -90,6 +95,7 @@ class UserGet extends Response
     public function getConversionStatus()
     {
         $data = $this->data->getData()[static::FIELD_DATA];
+
         return $data[static::FIELD_CONVERSION_STATUS];
     }
 
@@ -99,6 +105,7 @@ class UserGet extends Response
     public function getContactedDate()
     {
         $data = $this->data->getData()[static::FIELD_DATA];
+
         return $data[static::FIELD_CONTACTED_DATE];
     }
 }
