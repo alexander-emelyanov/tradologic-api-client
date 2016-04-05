@@ -63,10 +63,10 @@ class BinaryOptionCreate extends Request
     protected $userId;
 
     /**
-     * @param int $userId   Unique identifier of the user in TMS.
-     * @param int $optionId Unique identifier of a selected regular option in TMS.
-     * @param float $volume Current trade volume of user.
-     * @param int $isCall   A flag indicating if user has chosen to Call (1) or not (Put (0)).
+     * @param int   $userId   Unique identifier of the user in TMS.
+     * @param int   $optionId Unique identifier of a selected regular option in TMS.
+     * @param float $volume   Current trade volume of user.
+     * @param int   $isCall   A flag indicating if user has chosen to Call (1) or not (Put (0)).
      */
     public function __construct($userId, $optionId, $volume, $isCall)
     {
@@ -74,6 +74,6 @@ class BinaryOptionCreate extends Request
         $this->userId = $userId;
         $this->optionId = $optionId;
         $this->volume = floatval($volume);
-        $this->isCall = intval((bool)$isCall);
+        $this->isCall = intval((bool) $isCall);
     }
 }

@@ -42,7 +42,7 @@ class Response
                 case static::ERROR_UNAUTHORIZED: {
                     throw new UnauthorizedException($this, $this->getMessageText());
                 }
-                defauLt: {
+                default: {
                     throw new UnknownException($this, 'Unknown TradoLogic exception');
                 }
             }
