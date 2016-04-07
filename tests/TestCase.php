@@ -22,13 +22,17 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $url = getenv('TRADOLOGIC_URL');
-        if (!$url) {
-            throw new \Exception('Environment variable TRADOLOGIC_URL is required');
+        $vars = ['url', 'username', 'password', 'accountId'];
+        $data = [];
+        foreach ($vars as $var) {
+            $envVar = strtoupper('TRADOLOGIC_' . strtoupper($var));
+            if ($value = getenv($envVar)) {
+                $data[$var] = $value;
+            } else {
+                throw new \Exception("Environment variable $envVar is required");
+            }
         }
-        $this->apiClient = new ApiClient([
-            'url' => $url,
-        ]);
+        $this->apiClient = new ApiClient($data);
         $this->faker = FakerFactory::create();
     }
 

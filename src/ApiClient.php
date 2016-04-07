@@ -202,6 +202,7 @@ class ApiClient implements LoggerAwareInterface
      * @param \TradoLogic\Requests\UserCreate $request
      *
      * @throws \TradoLogic\Exception
+     * @throws \TradoLogic\Exceptions\EmailAlreadyExistsException
      *
      * @return \TradoLogic\Responses\UserCreate
      */
