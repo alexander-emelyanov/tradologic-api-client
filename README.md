@@ -58,6 +58,7 @@ $client = new \TradoLogic\ApiClient([
 Then you can register user.
 
 ```php
+/** @var \TradoLogic\Responses\UserCreate $response */
 $response = $client->createUser(new \TradoLogic\Requests\UserCreate([
     'userPassword' => '<USER_PASSWORD>',
     'userFirstName' => '<USER_FIRST_NAME>',
