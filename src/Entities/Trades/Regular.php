@@ -127,7 +127,7 @@ class Regular
     /**
      * @var bool
      */
-    protected $active;
+    protected $isActive;
 
     /**
      * @return int
@@ -305,6 +305,6 @@ class Regular
      */
     public function isActive()
     {
-        return $this->active;
+        return $this->isActive;
     }
 }
