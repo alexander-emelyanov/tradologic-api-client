@@ -253,7 +253,7 @@ class Regular
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isIsCall()
     {
@@ -277,7 +277,7 @@ class Regular
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isReturnOnLoss()
     {
@@ -301,7 +301,7 @@ class Regular
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isIsActive()
     {

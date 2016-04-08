@@ -5,7 +5,7 @@ namespace TradoLogic\Tests;
 use TradoLogic\Exceptions\EmailAlreadyExistsException;
 use TradoLogic\Requests\UserCreate;
 
-class Users extends TestCase
+class UsersTest extends TestCase
 {
     public function testEmailAlreadyExistsException()
     {
@@ -13,19 +13,20 @@ class Users extends TestCase
         $password = md5(rand());
 
         $request = new UserCreate([
-            'userPassword' => $password,
+            'userPassword'  => $password,
             'userFirstName' => $this->faker->firstName,
-            'userLastName' => $this->faker->lastName,
-            'phone' => $this->faker->randomNumber(8),
-            'email' => $email,
+            'userLastName'  => $this->faker->lastName,
+            'phone'         => $this->faker->randomNumber(8),
+            'email'         => $email,
         ]);
 
-        /** @var \TradoLogic\Responses\UserCreate $response */
+        /* @var \TradoLogic\Responses\UserCreate $response */
         try {
             $response = $this->apiClient->createUser($request);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             // Our IP is not allowed. We must skip this test.
             $this->assertTrue(true);
+
             return;
         }
 
