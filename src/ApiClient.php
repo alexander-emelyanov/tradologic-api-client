@@ -6,6 +6,7 @@ use GuzzleHttp;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use TradoLogic\Requests\BinaryOptionCreate as BinaryOptionCreateRequest;
+use TradoLogic\Requests\RegularUserTradesGet as RegularUserTradesGetRequest;
 use TradoLogic\Requests\UserCreate as UserCreateRequest;
 use TradoLogic\Requests\UserGet as UserGetRequest;
 use TradoLogic\Requests\UserLogin as UserLoginRequest;
@@ -17,6 +18,7 @@ use TradoLogic\Responses\Languages;
 use TradoLogic\Responses\UserCreate as UserCreateResponse;
 use TradoLogic\Responses\UserGet as UserGetResponse;
 use TradoLogic\Responses\UserLogin as UserLoginResponse;
+use TradoLogic\Responses\RegularUserTradesGet as RegularUserTradesGetResponse;
 
 class ApiClient implements LoggerAwareInterface
 {
@@ -347,5 +349,29 @@ class ApiClient implements LoggerAwareInterface
         $payload = $this->request('POST', '/v1/affiliate/trades/binary', $data);
 
         return new BinaryOptionCreateResponse($payload);
+    }
+
+    /**
+     * Retrieves the regular trades of the affiliate's user by providing the ID of the user.
+     *
+     * @param \TradoLogic\Requests\RegularUserTradesGet $request
+     *
+     * @return \TradoLogic\Entities\Trades\Regular[]
+     */
+    public function getRegularUserTrades(RegularUserTradesGetRequest $request)
+    {
+        $data = [
+            'userId'            => $request->getUserId(),
+            'onlyOpen'          => $request->getOnlyOpen(),
+            'affiliateUsername' => $this->getUsername(),
+            'accountId'         => $this->getAccountId(),
+        ];
+        $data['checksum'] = $this->getChecksum($data);
+        unset($data['userId']);
+
+        $payload = $this->request('GET', '/v1/affiliate/users/' . $request->getUserId() . '/trades/regular', $data);
+        $response = new RegularUserTradesGetResponse($payload);
+
+        return $response->getData();
     }
 }

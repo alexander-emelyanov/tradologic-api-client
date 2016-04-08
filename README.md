@@ -103,8 +103,20 @@ For trading integration you must get list of active binary options. You can do i
 $options = $client->getBinaryOptions();
 ```
 
-Then you can open positions (binary options) for your customers.
+### Trading
+When active binary options are retrieved you can open positions (binary options) for your customers.
 
 ```php
 $client->createBinaryOption(new \TradoLogic\Requests\BinaryOptionCreate(<User ID>, <Option ID>, <Volume>, <Is Call>));
+```
+
+### Trades
+
+You can retrieve trades history for specified users.
+
+```php
+/**
+ * @var \TradoLogic\Entities\Trades\Regular[]
+ */
+$trades = $client->getRegularUserTrades(new \TradoLogic\Requests\RegularUserTradesGet(<User ID>[, <Only open>]));
 ```
