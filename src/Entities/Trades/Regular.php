@@ -95,7 +95,7 @@ class Regular
     /**
      * @var bool
      */
-    protected $isCall;
+    protected $call;
 
     /**
      * Example: 'Put'.
@@ -127,7 +127,7 @@ class Regular
     /**
      * @var bool
      */
-    protected $isActive;
+    protected $active;
 
     /**
      * @return int
@@ -255,9 +255,9 @@ class Regular
     /**
      * @return bool
      */
-    public function isIsCall()
+    public function isCall()
     {
-        return $this->isCall;
+        return $this->call;
     }
 
     /**
@@ -303,8 +303,8 @@ class Regular
     /**
      * @return bool
      */
-    public function isIsActive()
+    public function isActive()
     {
-        return $this->isActive;
+        return $this->active;
     }
 }
