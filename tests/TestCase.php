@@ -25,7 +25,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
         $vars = ['url', 'username', 'password', 'accountId'];
         $data = [];
         foreach ($vars as $var) {
-            $envVar = strtoupper('TRADOLOGIC_' . strtoupper($var));
+            $envVar = strtoupper('TRADOLOGIC_'.strtoupper($var));
             if ($value = getenv($envVar)) {
                 $data[$var] = $value;
             } else {

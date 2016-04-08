@@ -15,10 +15,10 @@ use TradoLogic\Responses\BinaryOptions as BinaryOptionsResponse;
 use TradoLogic\Responses\Countries;
 use TradoLogic\Responses\Deposits as DepositsResponse;
 use TradoLogic\Responses\Languages;
+use TradoLogic\Responses\RegularUserTradesGet as RegularUserTradesGetResponse;
 use TradoLogic\Responses\UserCreate as UserCreateResponse;
 use TradoLogic\Responses\UserGet as UserGetResponse;
 use TradoLogic\Responses\UserLogin as UserLoginResponse;
-use TradoLogic\Responses\RegularUserTradesGet as RegularUserTradesGetResponse;
 
 class ApiClient implements LoggerAwareInterface
 {
@@ -369,7 +369,7 @@ class ApiClient implements LoggerAwareInterface
         $data['checksum'] = $this->getChecksum($data);
         unset($data['userId']);
 
-        $payload = $this->request('GET', '/v1/affiliate/users/' . $request->getUserId() . '/trades/regular', $data);
+        $payload = $this->request('GET', '/v1/affiliate/users/'.$request->getUserId().'/trades/regular', $data);
         $response = new RegularUserTradesGetResponse($payload);
 
         return $response->getData();

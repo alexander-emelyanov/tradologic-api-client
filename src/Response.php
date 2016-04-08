@@ -56,7 +56,7 @@ class Response
                 throw new FraudUserSuspendedException($this, $this->getMessageText());
             }
             default: {
-                throw new Exception($this, 'Unknown message type [' . $this->getMessageType() . ']');
+                throw new Exception($this, 'Unknown message type ['.$this->getMessageType().']');
             }
         }
     }

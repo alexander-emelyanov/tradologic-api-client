@@ -35,7 +35,7 @@ class RegularUserTradesGet extends Request
     protected $onlyOpen;
 
     /**
-     * @param int $userId    Unique identifier of the user in TMS.
+     * @param int  $userId   Unique identifier of the user in TMS.
      * @param bool $onlyOpen If set to true returns information only about open trades
      */
     public function __construct($userId, $onlyOpen = false)
